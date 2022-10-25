@@ -1,12 +1,24 @@
 package com.b.simple.design.business.student;
 public class StudentHelper {
 
-	/* PROBLEM 1 */	
+	public static final int GRADE_B_LOWER_LIMIT = 51;
+	public static final int GRADE_B_UPPER_LIMIT = 80;
+	public static final int EXTRA_RANGE_FOR_MATH = 10;
+	public static final int GRADE_A_LOWER_LIMIT = 91;
+	public static final int EXTRA_FOR_MATH = 5;
+	public static final int LOWER_LIMIT_FOR_QUIZ = 20;
+	public static final int UPPER_LIMIT_FOR_QUIZ = 80;
+
+	/* PROBLEM 1 */
 	/*
 	* You get a grade B if marks are between 51 and 80 (both inclusive). Except for Maths where the upper limit is increased by 10.
 	*/
 	public boolean isGradeB(int marks, boolean isMaths) {
-		return isMaths ? marks>=51 && marks<=90 : marks>=51 && marks<=80; 
+		int extraLimitGradeB = isMaths ? EXTRA_RANGE_FOR_MATH : 0;
+
+		int gradeBUpperLimit = GRADE_B_UPPER_LIMIT + extraLimitGradeB;
+
+		return marks>= GRADE_B_LOWER_LIMIT && marks<= gradeBUpperLimit;
 	}
 
 	/* PROBLEM 2 */
@@ -17,26 +29,14 @@ public class StudentHelper {
 	*/
 
 	public String getGrade(int mark, boolean isMaths) {
-		String grade = "C";
-		
-		if (isGradeA(mark, isMaths))
-			grade = "A";
-		else if (isBGrade(mark, isMaths)) {
-			grade = "B";
-		}
-		return grade;
-	}
+		int extraLimit = isMaths ? EXTRA_FOR_MATH : 0;
 
-	private boolean isGradeA(int mark, boolean isMaths) {
-		int lowerLimitForAGrade = isMaths ? 95
-				: 90;
-		return mark > lowerLimitForAGrade;
-	}
+		if (mark >= (GRADE_A_LOWER_LIMIT + extraLimit))
+			return Grade.A.toString();
 
-	private boolean isBGrade(int mark, boolean isMaths) {
-		int lowerLimitGradeB = isMaths ? 55
-				: 50;
-		return mark > lowerLimitGradeB && mark < 90;
+		if (mark >= GRADE_B_LOWER_LIMIT + extraLimit)
+			return Grade.B.toString();
+		return Grade.C.toString();
 	}
 
     /*  PROBLEM 3
@@ -56,11 +56,23 @@ public class StudentHelper {
     */
         
     public String willQualifyForQuiz(int marks1, int marks2, boolean isMaths) {
-        if ((isMaths ? marks1 <= 25 : marks1 <= 20)
-                || (isMaths ? marks2 <= 25 : marks2 <= 20)) return "NO";
-        if ((isMaths ? marks1 >= 85 : marks1 >= 80)
-                || (isMaths ? marks2 >= 85 : marks2 >= 80)) return "YES";
+		int extraNeededMarks = isMaths ? EXTRA_FOR_MATH : 0;
+
+		if (isNotGood(marks1, extraNeededMarks) || isNotGood(marks2, extraNeededMarks))
+			return "NO";
+
+        if (isGood(marks1, extraNeededMarks) || isGood(marks2, extraNeededMarks))
+			return "YES";
+
         return "MAYBE";
-    }	
+    }
+
+	private boolean isGood(int marks, int extraNeededMarks) {
+		return marks >= UPPER_LIMIT_FOR_QUIZ + extraNeededMarks;
+	}
+
+	private boolean isNotGood(int marks, int extraNeededMarks) {
+		return marks <= LOWER_LIMIT_FOR_QUIZ + extraNeededMarks;
+	}
 
 }

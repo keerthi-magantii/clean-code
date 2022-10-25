@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 public class GildedRoseRefactoredTest {
-	
+
 	private static final int POSITIVE_SELLIN_LESS_THAN_5 = 2;
 	private static final int SELLIN_BETWEEN_5_AND_10 = 7;
 	private static final String BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert";
@@ -16,6 +16,7 @@ public class GildedRoseRefactoredTest {
 	private static final String DEFAULT_ITEM = "DEFAULT_ITEM";
 	private static final int DEFAULT_QUALITY = 4;
 	private static final int NOT_EXPIRED_SELLIN = 16;
+	public static final int BACKSTAGE_PASSES_QUALITY = 3;
 
 	@Test
 	public void unexpiredDefaultItem_qualityDecreasesBy1() {
@@ -87,8 +88,38 @@ public class GildedRoseRefactoredTest {
 			
 		assertItem(expected, app.items[0]);
 	}
+	@Test
+	public void shouldIncreaseQualityByOneWhenBackStagePassesSellInBeyondTen() {
+		GildedRose app = createGildedRoseWithOneItem(BACKSTAGE_PASSES, SELLIN_GREATER_THAN_10, BACKSTAGE_PASSES_QUALITY);
 
-	
+		app.updateQuality();
+
+		Item expected = new Item(BACKSTAGE_PASSES, SELLIN_GREATER_THAN_10 - 1, BACKSTAGE_PASSES_QUALITY + 1);
+
+		assertItem(expected,app.items[0]);
+	}
+
+	@Test
+	public void shouldIncreaseQualityByTwoWhenBackStagePassesSellInBetweenFiveAndTen () {
+		GildedRose app = createGildedRoseWithOneItem(BACKSTAGE_PASSES, SELLIN_BETWEEN_5_AND_10, BACKSTAGE_PASSES_QUALITY);
+
+		app.updateQuality();
+
+		Item expected = new Item(BACKSTAGE_PASSES, SELLIN_BETWEEN_5_AND_10 - 1, BACKSTAGE_PASSES_QUALITY + 2);
+
+		assertItem(expected,app.items[0]);
+	}
+
+	@Test
+	public void shouldIncreaseQualityByThreeWhenBackStagePassesSellInLessThanFive() {
+		GildedRose app = createGildedRoseWithOneItem(BACKSTAGE_PASSES, POSITIVE_SELLIN_LESS_THAN_5, BACKSTAGE_PASSES_QUALITY);
+		
+		app.updateQuality();
+
+		Item expected = new Item(BACKSTAGE_PASSES, POSITIVE_SELLIN_LESS_THAN_5 - 1, BACKSTAGE_PASSES_QUALITY + 3);
+
+		assertItem(expected,app.items[0]);
+	}
 	@Test
 	public void backStagePassesBeyond10Days_qualityIncreasesBy1() {
 		

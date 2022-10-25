@@ -31,20 +31,20 @@ public class StudentHelperTest {
 	@Test
 	public void testGetGrade() {
 
-		assertEquals("A",helper.getGrade(99, false));
-		assertEquals("A",helper.getGrade(91, false));
-		assertEquals("B",helper.getGrade(85, false));
-		assertEquals("B",helper.getGrade(51, false));
-		assertEquals("C",helper.getGrade(50, false));
-		assertEquals("C",helper.getGrade(45, false));
+		assertEquals(Grade.A.toString(),helper.getGrade(99, false));
+		assertEquals(Grade.A.toString(),helper.getGrade(91, false));
+		assertEquals(Grade.B.toString(),helper.getGrade(85, false));
+		assertEquals(Grade.B.toString(),helper.getGrade(51, false));
+		assertEquals(Grade.C.toString(),helper.getGrade(50, false));
+		assertEquals(Grade.C.toString(),helper.getGrade(45, false));
 
-		assertEquals("A",helper.getGrade(99, true));
-		assertEquals("A",helper.getGrade(96, true));
-		assertEquals("B",helper.getGrade(89, true));
-		assertEquals("B",helper.getGrade(56, true));
-		assertEquals("C",helper.getGrade(55, true));
-		assertEquals("C",helper.getGrade(50, true));
-		assertEquals("C",helper.getGrade(45, true));
+		assertEquals(Grade.A.toString(),helper.getGrade(99, true));
+		assertEquals(Grade.A.toString(),helper.getGrade(96, true));
+		assertEquals(Grade.B.toString(),helper.getGrade(89, true));
+		assertEquals(Grade.B.toString(),helper.getGrade(56, true));
+		assertEquals(Grade.C.toString(),helper.getGrade(55, true));
+		assertEquals(Grade.C.toString(),helper.getGrade(50, true));
+		assertEquals(Grade.C.toString(),helper.getGrade(45, true));
 
 		//Will fail due to wrong implementation
 		//assertEquals("B",helper.getGrade(95, true));
